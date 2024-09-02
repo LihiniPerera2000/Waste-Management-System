@@ -1,341 +1,8 @@
-// Correct one uncomment this..........................................
-// Import React and Component
-// import React, { useState, useEffect } from 'react';
-// import { View, Text, Button, StyleSheet, Image, TouchableOpacity} from 'react-native';
-// import Background from './Background2';
-
-// const BinStatus = ({navigation}) => {
-//   const [data, setData] = useState(null);
-
-//   useEffect(() => {
-//     fetchData();
-//   }, []);
-
-//   const fetchData = async () => {
-//     try {
-//       //get data 
-//       const response = await fetch('http://192.168.4.229/WasteManagement/getdata.php');
-//       if (!response.ok) {
-//         throw new Error(`HTTP error! Status: ${response.status}`);
-//       }
-//       const json = await response.json();
-//       setData(json);
-//     } catch (error) {
-//       console.error('Error fetching data:', error.message);
-//     }
-//   };
-
-//   const getBinStatus = () => {
-//     if (!data) return 'No Data';
-//     const distance = data.Distance;
-
-//     //Check bin status is Empty, Full or Half
-//     if (distance > 24) {
-//       return '___ Empty ___';
-//     } else if (distance < 5) {
-//       return '___ Full ___';
-//     }
-//     return '___ Half ___';
-    
-//   };
-
-//   const getImageForBinStatus = () => {
-//     const binStatus = getBinStatus();
-    
-//     //According to bin status display image
-//     switch (binStatus) {
-//       case '___ Full ___':
-//         return require('../Images/WastebinR.png');
-//       case '___ Half ___':
-//         return require('../Images/WastebinY.png');
-//       case '___ Empty ___':
-//         return require('../Images/WastebinG.png');
-//       default:
-//         return require('../Images/WastebinR.png'); 
-//     }
-//   };
-
-//   return (
-//     <Background>
-//       <View style={styles.container}>
-//         <View style={styles.titleContainer}>
-//           <Text style={styles.title}>BIN STATUS</Text>
-//         </View>
-//           {data ? (
-//             <>
-//               {/* <Text style={styles.dataText}>Latitude: {data.Latitude}</Text>
-//               <Text style={styles.dataText}>Longitude: {data.Longitude}</Text> */}
-//               {/* <Button title="Bin Status" onPress={() => alert(`Bin Status: ${getBinStatus()}`)} /> */}
-//               {/* <Text style={styles.dataText}>Distance: {data.Distance}</Text> */}
-//               <Image source={getImageForBinStatus()} style={styles.binImage} />
-//               <Text style={styles.statusText}>{getBinStatus()}</Text>
-//               <TouchableOpacity onPress={() => navigation.navigate('Details')} style={[styles.button]}>
-//                 <Text style={styles.buttonText}>Show Direction</Text>
-//               </TouchableOpacity>
-//               <Text style={{
-//                 fontSize: 15,
-//                 textAlign: 'center',
-//                 color: '#4e947d',
-//                 position: 'absolute',
-//                 bottom: 50,
-//               }}>
-//                   Stay informed about waste levels in real-time to optimize collection
-//                    schedules and ensure efficient waste management operations. 
-//               </Text>
-//             </>
-//           ) : (
-//             <Text>Loading...</Text>
-//           )}
-//       </View>
-//     </Background>
-    
-//   );
-
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     paddingHorizontal: 20,
-//   },
-//   titleContainer: {
-//     marginBottom: 10,
-//   },
-//   title: {
-//     flex: 0,
-//     textAlign: 'center',
-//     marginBottom: 50,
-//     fontSize: 26,
-//     fontWeight: 'bold',
-//     color: '#06523E',
-//   },
-//   // dataContainer: {
-//   //   marginTop: 20,
-//   //},
-//   statusText: {
-//     fontSize: 20,
-//     fontWeight: 'bold',
-//     textAlign: 'center',
-//     color: '#06523E',
-//     marginBottom: 10,
-//   },
-//   binImage: {
-//     width: 250,
-//     height: 250,
-//     resizeMode: 'contain',
-//     borderRadius: 100,
-//     borderWidth: 2, 
-//   },
-//   button: {
-//     backgroundColor: '#1ED8A6',
-//     height: 45,
-//     width: 200,
-//     alignItems: 'center',
-//     marginTop: 15,
-//     padding: 8,
-//     borderRadius: 5,
-//   },
-//   ImageButton: {
-//     borderRadius: 35 / 2,
-//     marginBottom: 5,
-//     position: 'absolute',
-//     bottom: 200,  
-//     // left: 10, 
-//     zIndex: 1000,
-
-
-    
-    
-//     right: 300,
-//     //zIndex: 10,
-//   }, 
-//   buttonText: {
-//     color: '#ffffff',
-//     fontSize: 20,
-//     fontWeight: 'bold',
-//   },
-// });
-
-// export default BinStatus;
-
-
-// import React, { useState, useEffect } from 'react';
-// import { View, Text, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
-// import Background from './Background2';
-// import PushNotification from 'react-native-push-notification'; // Import the notification library
-
-// const BinStatus = ({ navigation }) => {
-//   const [data, setData] = useState(null);
-
-//   useEffect(() => {
-//     fetchData();
-//   }, []);
-
-//   const fetchData = async () => {
-//     try {
-//       //get data 
-//       const response = await fetch('http://192.168.4.229/WasteManagement/getdata.php');
-//       if (!response.ok) {
-//         throw new Error(`HTTP error! Status: ${response.status}`);
-//       }
-//       const json = await response.json();
-//       setData(json);
-//     } catch (error) {
-//       console.error('Error fetching data:', error.message);
-//     }
-//   };
-
-//   const getBinStatus = () => {
-//     if (!data) return 'No Data';
-//     const distance = data.Distance;
-
-//     //Check bin status is Empty, Full or Half
-//     if (distance > 24) {
-//       return '___ Empty ___';
-//     } else if (distance < 5) {
-//       // Send notification when bin is full
-//       sendNotification();
-//       return '___ Full ___';
-//     }
-//     return '___ Half ___';
-//   };
-
-//   const sendNotification = () => {
-//     PushNotification.localNotification({
-//       title: 'Dustbin Full!',
-//       message: 'Please empty the dustbin to avoid overflow.',
-//     });
-//   };
-
-//   const getImageForBinStatus = () => {
-//         const binStatus = getBinStatus();
-        
-//         //According to bin status display image
-//         switch (binStatus) {
-//           case '___ Full ___':
-//             return require('../Images/WastebinR.png');
-//           case '___ Half ___':
-//             return require('../Images/WastebinY.png');
-//           case '___ Empty ___':
-//             return require('../Images/WastebinG.png');
-//           default:
-//             return require('../Images/WastebinR.png'); 
-//         }
-//       };
-    
-//       return (
-//         <Background>
-//           <View style={styles.container}>
-//             <View style={styles.titleContainer}>
-//               <Text style={styles.title}>BIN STATUS</Text>
-//             </View>
-//               {data ? (
-//                 <>
-//                   {/* <Text style={styles.dataText}>Latitude: {data.Latitude}</Text>
-//                   <Text style={styles.dataText}>Longitude: {data.Longitude}</Text> */}
-//                   {/* <Button title="Bin Status" onPress={() => alert(`Bin Status: ${getBinStatus()}`)} /> */}
-//                   {/* <Text style={styles.dataText}>Distance: {data.Distance}</Text> */}
-//                   <Image source={getImageForBinStatus()} style={styles.binImage} />
-//                   <Text style={styles.statusText}>{getBinStatus()}</Text>
-//                   <TouchableOpacity onPress={() => navigation.navigate('BinStatus')} style={[styles.button]}>
-//                     <Text style={styles.buttonText}>Refresh</Text>
-//                   </TouchableOpacity>
-//                   <TouchableOpacity onPress={() => navigation.navigate('Details')} style={[styles.button]}>
-//                     <Text style={styles.buttonText}>Show Direction</Text>
-//                   </TouchableOpacity>
-                  
-//                   <Text style={{
-//                     fontSize: 15,
-//                     textAlign: 'center',
-//                     color: '#4e947d',
-//                     position: 'absolute',
-//                     bottom: 50,
-//                   }}>
-//                       Stay informed about waste levels in real-time to optimize collection
-//                        schedules and ensure efficient waste management operations. 
-//                   </Text>
-//                 </>
-//               ) : (
-//                 <Text>Loading...</Text>
-//               )}
-//           </View>
-//         </Background>
-        
-//       );
-    
-//     };
-    
-//     const styles = StyleSheet.create({
-//       container: {
-//         flex: 1,
-//         alignItems: 'center',
-//         justifyContent: 'center',
-//         paddingHorizontal: 20,
-//       },
-//       titleContainer: {
-//         marginBottom: 10,
-//       },
-//       title: {
-//         flex: 0,
-//         textAlign: 'center',
-//         marginBottom: 50,
-//         fontSize: 26,
-//         fontWeight: 'bold',
-//         color: '#06523E',
-//       },
-//       // dataContainer: {
-//       //   marginTop: 20,
-//       //},
-//       statusText: {
-//         fontSize: 20,
-//         fontWeight: 'bold',
-//         textAlign: 'center',
-//         color: '#06523E',
-//         marginBottom: 10,
-//       },
-//       binImage: {
-//         width: 250,
-//         height: 250,
-//         resizeMode: 'contain',
-//         borderRadius: 100,
-//         borderWidth: 2, 
-//       },
-//       button: {
-//         backgroundColor: '#1ED8A6',
-//         height: 45,
-//         width: 200,
-//         alignItems: 'center',
-//         marginTop: 15,
-//         padding: 8,
-//         borderRadius: 5,
-//       },
-//       ImageButton: {
-//         borderRadius: 35 / 2,
-//         marginBottom: 5,
-//         position: 'absolute',
-//         bottom: 200,  
-//         // left: 10, 
-//         zIndex: 1000, 
-//         right: 300,
-//         //zIndex: 10,
-//       }, 
-//       buttonText: {
-//         color: '#ffffff',
-//         fontSize: 20,
-//         fontWeight: 'bold',
-//       },
-//     });
-    
-//     export default BinStatus;
-
-
-
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import Background from './Background2';
-import PushNotification from 'react-native-push-notification'; // Import the notification library
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import PushNotification from 'react-native-push-notification'; 
+import Toast from 'react-native-toast-message';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const BinStatus = ({ navigation }) => {
   const [data, setData] = useState(null);
@@ -343,16 +10,20 @@ const BinStatus = ({ navigation }) => {
 
   useEffect(() => {
     fetchData();
-    const interval = setInterval(() => {
+    const interval = setInterval(fetchData, 5000); // Fetch data every 5 seconds
+    const blinkInterval = setInterval(() => {
       setShowBlinkingText((prev) => !prev);
     }, 1000); // Toggle text visibility every 1000 milliseconds (1 second)
-    return () => clearInterval(interval); // Clean up the interval on component unmount
+    return () => {
+      clearInterval(interval); 
+      clearInterval(blinkInterval); 
+    };
   }, []);
 
+  //Fetch data from server
   const fetchData = async () => {
     try {
-      //get data 
-      const response = await fetch('http://192.168.4.229/WasteManagement/getdata.php');
+      const response = await fetch('http://172.20.10.5/WasteManagement/getdata.php');
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -363,20 +34,23 @@ const BinStatus = ({ navigation }) => {
     }
   };
 
+  //Get bin status
   const getBinStatus = () => {
     if (!data) return 'No Data';
     const distance = data.Distance;
 
     //Check bin status is Empty, Full or Half
     if (distance > 24) {
-      return '___ Empty ___';
+      return 'Empty';
     } else if (distance < 5) {
       sendNotification();    // Send notification when bin is full
-      return '___ Full ___';
+      showToast(); // Show toast notification when bin is full
+      return 'Full';
     }
-    return '___ Half ___';
+    return 'Partially Full';
   };
 
+  //Send notification when bin is full
   const sendNotification = () => {
     PushNotification.localNotification({
       title: 'Dustbin Full!',
@@ -384,77 +58,149 @@ const BinStatus = ({ navigation }) => {
     });
   };
 
+  //Show toast notification when bin is full
+  const showToast = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'Dustbin Full',
+      text2: 'The dustbin is full. Please empty it.',
+    });
+  };
+
+  //Blinking text style
   const blinkingTextStyle = {
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
     color: '#FF0000', 
-    marginBottom: -60,
-    opacity: showBlinkingText ? 1 : 0, // Toggle opacity to hide/show text
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: [{ translateX: -50 }, { translateY: -50 }],
+    opacity: showBlinkingText ? 1 : 0, 
   };
 
+  //Get image for bin status
   const getImageForBinStatus = () => {
     const binStatus = getBinStatus();
             
-            //According to bin status display image
-      switch (binStatus) {
-        case '___ Full ___':
-          return require('../Images/WastebinR.png');
-        case '___ Half ___':
-          return require('../Images/WastebinY.png');
-        case '___ Empty ___':
-          return require('../Images/WastebinG.png');
-        default:
-          return require('../Images/WastebinR.png'); 
-      }
-    };
+    //According to bin status display bin image
+    switch (binStatus) {
+      case 'Full':
+        return require('../Images/WastebinR.png');
+      case 'Partially Full':
+        return require('../Images/WastebinY.png');
+      case 'Empty':
+        return require('../Images/WastebinG.png');
+      default:
+        return require('../Images/WastebinR.png'); 
+    }
+  };
+
+  //Bin status indicator
+  const BinStatusIndicator = ({ color, status }) => (
+    <View style={styles.binStatusContainer}>
+      <View style={[styles.binStatusIndicator, { backgroundColor: color }]} />
+      <Text style={styles.binStatusText}>{status}</Text>
+    </View>
+  );
 
   return (
-    <Background>
-      <View style={styles.container}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>BIN STATUS</Text>
-          <Text style={blinkingTextStyle}>Dustbin Full! Please empty the dustbin to avoid overflow.</Text>
-        </View>
+      <View style={styles.container}>      
         {data ? (
           <>
-            <Image source={getImageForBinStatus()} style={styles.binImage} />
+            <TouchableOpacity onPress={fetchData} style={styles.refreshButton}>
+              <Icon name="refresh" size={20} color="#ffffff" />
+            </TouchableOpacity>
+            
+            <View style={styles.binContainer}>
+              <TouchableOpacity onPress={fetchData}>
+                <Image source={getImageForBinStatus()} style={styles.binImage} />
+              </TouchableOpacity>
+            </View>
+
             <Text style={styles.statusText}>{getBinStatus()}</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('BinStatus')} style={[styles.button]}>
-              <Text style={styles.buttonText}>Refresh</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('Details')} style={[styles.button]}>
-              <Text style={styles.buttonText}>Show Direction</Text>
-            </TouchableOpacity>
-            <Text style={styles.description}>
-              Stay informed about waste levels in real-time to optimize collection
-              schedules and ensure efficient waste management operations.
-            </Text>
+
+
+            <View style={styles.statusIndicatorsContainer}>
+              <View style={styles.statusRow}>
+                <BinStatusIndicator color="#FF0000" status="Full" />
+                <BinStatusIndicator color="#FFFF00" status="Partially Full" />
+                <BinStatusIndicator color="#00FF00" status="Empty" />
+              </View>
+            </View>
+
+            {/* {getBinStatus() === '___ Full ___' && (
+              <Text style={blinkingTextStyle}>Dustbin Full!</Text>
+            )} */}
           </>
+
         ) : (
           <Text>Loading...</Text>
         )}
+        <Text style={styles.description}>
+              Stay informed about waste levels in real-time to optimize collection
+              schedules and ensure efficient waste management operations.
+        </Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Location')} style={styles.LocationButton}>
+          <Text style={styles.buttonText}>Location</Text>
+        </TouchableOpacity>
+        <Toast ref={(ref) => Toast.setRef(ref)} />
       </View>
-    </Background>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#ffffff',
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 20,
   },
-  titleContainer: {
+  binContainer: {
+    position: 'relative',
+    width: 300,
+    height: 300,
+    marginTop: 10,
+  },
+  binImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
+    borderRadius: 100,
+    borderWidth: 2,
+  },
+  refreshButton: {
+    position: 'absolute',
+    backgroundColor: '#46bb2e',
+    padding: 10,
+    top: 10,
+    right: 10,
+    borderRadius: 15,
+  },
+  statusIndicatorsContainer: {
+    width: '80%',
+    marginTop: 30, 
     marginBottom: 10,
   },
-  title: {
-    textAlign: 'center',
-    marginBottom: 20,
-    marginTop: -120,
-    fontSize: 26,
-    fontWeight: 'bold',
+  statusRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+    marginTop: -10,
+  },
+  binStatusContainer: {
+    alignItems: 'center',
+  },
+  binStatusIndicator: {
+    width: 30,
+    height: 30,
+    margin: 30,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  binStatusText: {
     color: '#06523E',
   },
   statusText: {
@@ -462,36 +208,28 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     color: '#06523E',
-    marginBottom: 10,
   },
-  binImage: {
-    width: 250,
-    height: 250,
-    resizeMode: 'contain',
-    borderRadius: 100,
-    borderWidth: 2,
-  },
-  button: {
-    backgroundColor: '#1ED8A6',
-    height: 45,
-    width: 200,
+  LocationButton: {
+    position: 'absolute',
+    bottom: 20,
+    backgroundColor: '#46bb2e',
+    height: 35,
+    width: 400,
     alignItems: 'center',
-    marginTop: 15,
-    padding: 8,
+    justifyContent: 'center',
+    padding: 5,
     borderRadius: 5,
   },
   buttonText: {
     color: '#ffffff',
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   description: {
     fontSize: 15,
     textAlign: 'center',
     color: '#4e947d',
-    position: 'absolute',
-    bottom: 50,
-    marginTop:30,
+    marginTop: 40, 
   },
 });
 

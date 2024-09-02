@@ -1,121 +1,21 @@
-// // import React in our code
-// import React from 'react';
-
-// // import all the components we are going to use
+// import React, { useState } from 'react';
 // import {
 //   SafeAreaView,
 //   StyleSheet,
 //   View,
 //   Text,
+//   TextInput,
+//   Button,
 //   TouchableOpacity,
+//   Alert,
+//   ScrollView,
 // } from 'react-native';
+// import Communications from 'react-native-communications';
+// import Background from './Background2';
 
-// // 1. Either import the whole module
-// //import Communications from 'react-native-communications';
-// /* 2. Or import single methods
-//  import {
-//   phonecall,
-//   email,
-//   text,
-//   web
-// } from 'react-native-communications';*/
-
-// const WeatherScreen = () => {
-//   return (
-//     <SafeAreaView style={styles.container}>
-//       <View style={styles.container}>
-//         <Text style={styles.titleText}>
-//           Make Emergency Phone Call, Send SMS or Email
-//         </Text>
-//         {/* Call: phonecall(phoneNumber, prompt) */}
-//         {/* <TouchableOpacity
-//           activeOpacity={0.7}
-//           style={styles.buttonStyle}
-//           onPress={() => Communications.phonecall('0123456789', true)}>
-//           <Text style={styles.buttonTextStyle}> Call National Help Service</Text>
-//         </TouchableOpacity> */}
-//         {/* Mail: email(to, cc, bcc, subject, body) */}
-//         <TouchableOpacity
-//           activeOpacity={0.7}
-//           style={styles.buttonStyle}
-//           onPress={() =>
-//             Communications.email(
-//               ['NationalHelpService@gmail.com'],
-//               null,
-//               null,
-//               'Demo Subject',
-//               'Demo Content for the mail',
-//             )
-//           }>
-//           <Text style={styles.buttonTextStyle}>Send an Email to National Help Service</Text>
-//         </TouchableOpacity>
-//         {/* SMS: text(phoneNumber = null, body = null) */}
-//         <TouchableOpacity
-//           activeOpacity={0.7}
-//           style={styles.buttonStyle}
-//           onPress={() => Communications.text('0123456789')}>
-//           <Text style={styles.buttonTextStyle}>Send a Text/iMessage to National Help Service </Text>
-//         </TouchableOpacity>
-//         {/* Web: web(address = null)*/}
-//         <TouchableOpacity
-//           activeOpacity={0.7}
-//           style={styles.buttonStyle}
-//           onPress={() =>
-//             Communications.web('https://www.srilanka.travel/emergency-services')
-//           }>
-//           <Text style={styles.buttonTextStyle}> Emergency Hotline List</Text>
-//         </TouchableOpacity>
-//         <Text
-//           style={{
-//             fontSize: 15,
-//             textAlign: 'center',
-//             color: 'grey',
-//             position: 'absolute', 
-//             bottom: 0,
-//           }}>
-
-//          Example
-//         </Text>
-//       </View>
-//     </SafeAreaView>
-//   );
-// };
-
-
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: 'white',
-//     padding: 10,
-//   },
-//   titleText: {
-//     fontSize: 22,
-//     textAlign: 'center',
-//     fontWeight: 'bold',
-//   },
-//   buttonStyle: {
-//     justifyContent: 'center',
-//     marginTop: 15,
-//     padding: 10,
-//     backgroundColor: '#1F319D',
-//   },
-//   buttonTextStyle: {
-//     color: '#fff',
-//     textAlign: 'center',
-//   },
-// });
-
-// export default WeatherScreen;
-
-// import React, { useState } from 'react';
-// import { View, Text, StyleSheet, TextInput, Button, Alert } from 'react-native';
-// import Geolocation from '@react-native-community/geolocation';
-
-// const WeatherScreen = () => {
+// const EmergencyScreen = () => {
 //   const [emergencyType, setEmergencyType] = useState('');
 //   const [emergencyDescription, setEmergencyDescription] = useState('');
-//   const [location, setLocation] = useState(null);
 
 //   const handleEmergencyButton = () => {
 //     if (!emergencyType.trim() || !emergencyDescription.trim()) {
@@ -126,35 +26,19 @@
 //     // Simulating sending emergency data to a server
 //     sendEmergencyData();
 //     Alert.alert('Emergency Sent', 'Your emergency alert has been sent successfully.');
-
-//     // You can also integrate real-time services to handle emergency alerts
 //   };
 
 //   const sendEmergencyData = () => {
-//     // Simulate sending emergency data to a server or emergency services
 //     console.log('Sending emergency data:', {
 //       type: emergencyType,
 //       description: emergencyDescription,
-//       //location: location ? `${location.latitude}, ${location.longitude}` : 'Unknown',
 //     });
 //   };
 
-//   const getCurrentLocation = () => {
-//     Geolocation.getCurrentPosition(
-//       (position) => {
-//         const { latitude, longitude } = position.coords;
-//         setLocation({ latitude, longitude });
-//       },
-//       (error) => {
-//         console.error('Error getting current location:', error);
-//       },
-//       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-//     );
-//   };
-
 //   return (
+//     //<Background>
 //     <View style={styles.container}>
-//       <Text style={styles.title}>Make Emergency Phone Call, Send SMS or Email</Text>
+//       <Text style={styles.title}>EMERGENCY SERVICES</Text>
 //       <TextInput
 //         style={styles.input}
 //         placeholder="Type of Emergency"
@@ -165,19 +49,81 @@
 //         style={styles.input}
 //         placeholder="Description"
 //         multiline
-//         numberOfLines={4}
+//         numberOfLines={6}
 //         value={emergencyDescription}
 //         onChangeText={(text) => setEmergencyDescription(text)}
 //       />
-//       <Button title="Send Emergency Alert" onPress={handleEmergencyButton} />
-//       {/* <Button title="Get Current Location" onPress={getCurrentLocation} /> */}
+//       <TouchableOpacity
+//         activeOpacity={0.7}
+//         style={styles.buttonAlert}
+//         onPress={handleEmergencyButton}>
+//         <Text style={styles.buttonAlertText}> Send </Text>
+//       </TouchableOpacity>
 
-//       {/* {location && (
-//         <Text style={styles.location}>
-//           Current Location: {location.latitude}, {location.longitude}
-//         </Text>
-//       )} */}
+//       <TouchableOpacity
+//         activeOpacity={0.7}
+//         style={styles.buttonStyle}
+//         onPress={() => Communications.phonecall('0112229110', true)}>
+//         <Text style={styles.buttonTextStyle}> Call Emergency Service</Text>
+//       </TouchableOpacity>
+//       <TouchableOpacity
+//         activeOpacity={0.7}
+//         style={styles.buttonStyle}
+//         onPress={() =>
+//           Communications.email(
+//             ['lihiniperera116@gmail.com'],
+//             null,
+//             null,
+//             'Emergency Subject',
+//             'Emergency Content for the mail',
+//           )
+//         }>
+//         <Text style={styles.buttonTextStyle}>Send an Email</Text>
+//       </TouchableOpacity>
+
+//       <TouchableOpacity
+//         activeOpacity={0.7}
+//         style={styles.buttonStyle}
+//         onPress={() => Communications.text('0712233444')}>
+//         <Text style={styles.buttonTextStyle}>Send a Message</Text>
+//       </TouchableOpacity>
+
+//       <ScrollView style={styles.contactList}>
+//         <View style={styles.contactItem}>
+//           <Text style={styles.contactName}>Community Hotline</Text>
+//           <Text style={styles.contactNumber}>1212</Text>
+//         </View>
+//         <View style={styles.contactItem}>
+//           <Text style={styles.contactName}>Recycling Center</Text>
+//           <Text style={styles.contactNumber}>0712345678</Text>
+//         </View>
+//         <View style={styles.contactItem}>
+//           <Text style={styles.contactName}>Hazardous Waste Disposal</Text>
+//           <Text style={styles.contactNumber}>0712345680</Text>
+//         </View>
+//         <View style={styles.contactItem}>
+//           <Text style={styles.contactName}>Environmental Protection Agency</Text>
+//           <Text style={styles.contactNumber}>0712345680</Text>
+//         </View>
+//         <View style={styles.contactItem}>
+//           <Text style={styles.contactName}>Fire Emergency Services</Text>
+//           <Text style={styles.contactNumber}>0712345680</Text>
+//         </View>
+//         <View style={styles.contactItem}>
+//           <Text style={styles.contactName}>Waste Management Contractor</Text>
+//           <Text style={styles.contactNumber}>0712345680</Text>
+//         </View>
+//         <View style={styles.contactItem}>
+//           <Text style={styles.contactName}>Municipel Council</Text>
+//           <Text style={styles.contactNumber}>0712345680</Text>
+//         </View>
+//         <View style={styles.contactItem}>
+//           <Text style={styles.contactName}>Recycling Information Hotline</Text>
+//           <Text style={styles.contactNumber}>0712345680</Text>
+//         </View>
+//       </ScrollView>
 //     </View>
+//     //</Background>
 //   );
 // };
 
@@ -186,6 +132,7 @@
 //     flex: 1,
 //     alignItems: 'center',
 //     justifyContent: 'center',
+//     backgroundColor: '#ffffff',
 //     padding: 20,
 //   },
 //   title: {
@@ -193,21 +140,71 @@
 //     fontWeight: 'bold',
 //     marginBottom: 20,
 //     textAlign: 'center',
+//     color: '#06523E',
+//   },
+//   buttonAlert: {
+//     marginBottom: 10,
+//     width: 100,
+//     height: 40,
+//     padding: 10,
+//     backgroundColor: '#06523E',
+//     borderRadius: 5,
+//   },
+//   buttonStyle: {
+//     justifyContent: 'center',
+//     marginTop: 15,
+//     width: 350,
+//     height: 35,
+//     backgroundColor: '#06523E',
+//     borderRadius: 5,
+//   },
+//   buttonAlertText: {
+//     color: '#fff',
+//     textAlign: 'center',
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//   },
+//   buttonTextStyle: {
+//     color: '#fff',
+//     textAlign: 'center',
+//     fontSize: 16,
 //   },
 //   input: {
-//     width: '100%',
+//     width: 350,
 //     borderWidth: 1,
-//     borderColor: '#ccc',
+//     borderColor: '#06523E',
+//     borderRadius: 5,
 //     padding: 10,
-//     marginBottom: 10,
+//     marginBottom: 15,
 //   },
-//   location: {
+//   contactList: {
 //     marginTop: 20,
-//     fontSize: 16,
+//     width: '100%',
+//     maxHeight: 200, 
+//   },
+//   contactItem: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     padding: 10,
+//     borderBottomWidth: 1,
+//     borderBottomColor: '#ccc',
+//   },
+//   contactName: {
+//     fontSize: 12,
+//     color: '#06523E',
+//     fontWeight: 'bold',
+//   },
+//   contactNumber: {
+//     fontSize: 12,
+//     color: '#06523E',
 //   },
 // });
 
-// export default WeatherScreen;
+// export default EmergencyScreen;
+
+
+
+
 
 
 import React, { useState } from 'react';
@@ -220,10 +217,9 @@ import {
   Button,
   TouchableOpacity,
   Alert,
+  ScrollView,
 } from 'react-native';
 import Communications from 'react-native-communications';
-import Background from './Background2';
-
 
 const EmergencyScreen = () => {
   const [emergencyType, setEmergencyType] = useState('');
@@ -234,99 +230,95 @@ const EmergencyScreen = () => {
       Alert.alert('Error', 'Please provide both the type and description of the emergency.');
       return;
     }
-
-    // Simulating sending emergency data to a server
-    sendEmergencyData();
-    Alert.alert('Emergency Sent', 'Your emergency alert has been sent successfully.');
-
-    // You can also integrate real-time services to handle emergency alerts
-  };
-
-  const sendEmergencyData = () => {
-    // Simulate sending emergency data to a server or emergency services
-    console.log('Sending emergency data:', {
-      type: emergencyType,
-      description: emergencyDescription,
-    });
   };
 
   return (
-    <Background>
-      <View style={styles.container}>
-        <Text style={styles.title}>EMERGENCY SERVICES</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Type of Emergency"
-          value={emergencyType}
-          onChangeText={(text) => setEmergencyType(text)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Description"
-          multiline
-          numberOfLines={6}
-          value={emergencyDescription}
-          onChangeText={(text) => setEmergencyDescription(text)}
-        />
-        <TouchableOpacity
-          activeOpacity={0.7}
-          style={styles.buttonAlert}
-          onPress={handleEmergencyButton
-          }>
-          <Text style={styles.buttonAlertText}> Send </Text>
-        </TouchableOpacity>
+    <View style={styles.container}>
+      <Text style={styles.title}>EMERGENCY SERVICES</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Type of Emergency"
+        value={emergencyType}
+        onChangeText={(text) => setEmergencyType(text)}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Description"
+        multiline
+        numberOfLines={6}
+        value={emergencyDescription}
+        onChangeText={(text) => setEmergencyDescription(text)}
+      />
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={styles.buttonStyle}
+        onPress={() => {
+          handleEmergencyButton();
+          Communications.phonecall('0789824860', true);
+        }}>
+        <Text style={styles.buttonTextStyle}> Call Emergency Service</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={styles.buttonStyle}
+        onPress={() => {
+          handleEmergencyButton();
+          Communications.email(
+            ['lihiniperera116@gmail.com'],
+            null,
+            null,
+            'Emergency Subject',
+            `Type of Emergency: ${emergencyType}\nDescription: ${emergencyDescription}`,
+          );
+        }}>
+        <Text style={styles.buttonTextStyle}>Send an Email</Text>
+      </TouchableOpacity>
 
-        
-          <TouchableOpacity
-            activeOpacity={0.7}
-            style={styles.buttonStyle}
-            onPress={() =>
-              Communications.phonecall('01122333444', true)
-            }>
-            <Text style={styles.buttonTextStyle}> Call Emergency Service</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            style={styles.buttonStyle}
-            onPress={() =>
-              Communications.email(
-                ['trashmasteremergency@gmail.com'],
-                null,
-                null,
-                'Emergency Subject',
-                'Emergency Content for the mail',
-              )
-            }>
-            <Text style={styles.buttonTextStyle}>Send an Email</Text>
-          </TouchableOpacity>
-        
-          <TouchableOpacity
-            activeOpacity={0.7}
-            style={styles.buttonStyle}
-            onPress={() => Communications.text('0712233444')}>
-            <Text style={styles.buttonTextStyle}>Send a Message  </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            style={styles.buttonStyle}
-            onPress={() =>
-              Communications.web('https://www.trashmasteremergency.com/contact')
-            }>
-            <Text style={styles.buttonTextStyle}> Emergency Contact List</Text>
-          </TouchableOpacity>
-      
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={styles.buttonStyle}
+        onPress={() => {
+          handleEmergencyButton();
+          Communications.text('0789824860', `Type of Emergency: ${emergencyType}\nDescription: ${emergencyDescription}`);
+        }}>
+        <Text style={styles.buttonTextStyle}>Send a Message</Text>
+      </TouchableOpacity>
 
-        <Text style={{
-            fontSize: 15,
-            textAlign: 'center',
-            color: '#4e947d',
-            position: 'absolute',
-            bottom: 30,
-          }}>
-          Report emergencies swiftly and ensure timely action for a cleaner, safer environment. 
-        </Text>
-      </View>
-    </Background>
+      <ScrollView style={styles.contactList}>
+        <View style={styles.contactItem}>
+          <Text style={styles.contactName}>Community Hotline</Text>
+          <Text style={styles.contactNumber}>1212</Text>
+        </View>
+        <View style={styles.contactItem}>
+          <Text style={styles.contactName}>Recycling Center</Text>
+          <Text style={styles.contactNumber}>0712345678</Text>
+        </View>
+        <View style={styles.contactItem}>
+          <Text style={styles.contactName}>Hazardous Waste Disposal</Text>
+          <Text style={styles.contactNumber}>0712345680</Text>
+        </View>
+        <View style={styles.contactItem}>
+          <Text style={styles.contactName}>Environmental Protection Agency</Text>
+          <Text style={styles.contactNumber}>0712345680</Text>
+        </View>
+        <View style={styles.contactItem}>
+          <Text style={styles.contactName}>Fire Emergency Services</Text>
+          <Text style={styles.contactNumber}>0712345680</Text>
+        </View>
+        <View style={styles.contactItem}>
+          <Text style={styles.contactName}>Waste Management Contractor</Text>
+          <Text style={styles.contactNumber}>0712345680</Text>
+        </View>
+        <View style={styles.contactItem}>
+          <Text style={styles.contactName}>Municipel Council</Text>
+          <Text style={styles.contactNumber}>0712345680</Text>
+        </View>
+        <View style={styles.contactItem}>
+          <Text style={styles.contactName}>Recycling Information Hotline</Text>
+          <Text style={styles.contactNumber}>0712345680</Text>
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 
@@ -335,53 +327,58 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#ffffff',
     padding: 20,
   },
   title: {
-    fontSize: 30,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 30,
+    marginBottom: 20,
     textAlign: 'center',
     color: '#06523E',
-  },
-  buttonAlert: {
-    marginBottom: 30,
-    width: 100,
-    height: 40,
-    padding: 10,
-    backgroundColor: '#06523E',
-    borderRadius: 5,
   },
   buttonStyle: {
     justifyContent: 'center',
     marginTop: 15,
     width: 350,
-    height: 50,
-    padding: 10,
-    backgroundColor: '#1ED8A6',
+    height: 35,
+    backgroundColor: '#06523E',
     borderRadius: 5,
-  },
-  buttonAlertText: {
-    color: '#fff',
-    textAlign: 'center',
-    fontSize: 14,
   },
   buttonTextStyle: {
     color: '#fff',
     textAlign: 'center',
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 16,
   },
   input: {
     width: 350,
     borderWidth: 1,
-    borderColor: '#1ED8A6',
+    borderColor: '#06523E',
+    borderRadius: 5,
     padding: 10,
     marginBottom: 15,
+  },
+  contactList: {
+    marginTop: 20,
+    width: '100%',
+    maxHeight: 200, 
+  },
+  contactItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  contactName: {
+    fontSize: 12,
+    color: '#06523E',
+    fontWeight: 'bold',
+  },
+  contactNumber: {
+    fontSize: 12,
+    color: '#06523E',
   },
 });
 
 export default EmergencyScreen;
-
-
-
