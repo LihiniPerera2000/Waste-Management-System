@@ -27,7 +27,7 @@ const LogoutScreen = () => {
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <Text style={styles.header}>Our Commitment to Sustainable Waste Management</Text>
         {points.map((point, index) => (
-          <Text key={index} style={styles.point}>• {point}</Text>
+          <Text key={index} style={styles.point}>▪ {point}</Text>
         ))}
       </ScrollView>
       <TouchableOpacity onPress={handleLogout} style={styles.logoutButtonContainer}>

@@ -7,16 +7,37 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 const BinStatus = ({ navigation }) => {
   const [data, setData] = useState(null);
   const [showBlinkingText, setShowBlinkingText] = useState(true);
+  const [isBinFull, setIsBinFull] = useState(false);
+  const [notificationCount, setNotificationCount] = useState(0);
 
   useEffect(() => {
+    // Create notification channel
+    PushNotification.createChannel(
+      {
+        channelId: "bin-status-channel", 
+        channelName: "Bin Status Notifications", 
+        channelDescription: "Notifications for bin status updates", 
+        importance: 4, 
+        vibrate: true, 
+      },
+      (created) => console.log(`createChannel returned '${created}'`) 
+    );
+
     fetchData();
     const interval = setInterval(fetchData, 5000); // Fetch data every 5 seconds
     const blinkInterval = setInterval(() => {
       setShowBlinkingText((prev) => !prev);
     }, 1000); // Toggle text visibility every 1000 milliseconds (1 second)
+    
+    // Reset notification count every 24 hours
+    const resetNotificationCount = setInterval(() => {
+      setNotificationCount(0);
+    }, 24 * 60 * 60 * 1000); 
+
     return () => {
       clearInterval(interval); 
       clearInterval(blinkInterval); 
+      clearInterval(resetNotificationCount);
     };
   }, []);
 
@@ -29,9 +50,59 @@ const BinStatus = ({ navigation }) => {
       }
       const json = await response.json();
       setData(json);
+      checkBinStatus(json);
     } catch (error) {
       console.error('Error fetching data:', error.message);
     }
+  };
+
+  //Check bin status and schedule notifications if full
+  const checkBinStatus = (data) => {
+    const distance = data.Distance;
+    if (distance < 5) {
+      if (!isBinFull) {
+        setIsBinFull(true);
+        setNotificationCount(0); // Reset notification count when bin becomes full
+        sendNotification(); // Send initial notification
+        showToast(); // Show toast notification
+        scheduleNotifications(); // Schedule repeated notifications
+      }
+    } else {
+      setIsBinFull(false);
+      setNotificationCount(0); // Reset notification count when bin is not full
+    }
+  };
+
+  //Send notification when bin is full
+  const sendNotification = () => {
+    if (notificationCount < 2) {
+      PushNotification.localNotification({
+        channelId: "bin-status-channel", // Ensure this is set
+        title: 'Dustbin Full!',
+        message: 'Please empty the dustbin to avoid overflow.',
+      });
+      setNotificationCount((prevCount) => prevCount + 1);
+    }
+  };
+
+  //Show toast notification when bin is full
+  const showToast = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'Dustbin Full',
+      text2: 'The dustbin is full. Please empty it.',
+    });
+  };
+
+  //Schedule notifications every 12 hours
+  const scheduleNotifications = () => {
+    const twelveHours = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
+    setTimeout(() => {
+      if (isBinFull && notificationCount < 2) {
+        sendNotification();
+        showToast();
+      }
+    }, twelveHours);
   };
 
   //Get bin status
@@ -43,28 +114,9 @@ const BinStatus = ({ navigation }) => {
     if (distance > 24) {
       return 'Empty';
     } else if (distance < 5) {
-      sendNotification();    // Send notification when bin is full
-      showToast(); // Show toast notification when bin is full
       return 'Full';
     }
     return 'Partially Full';
-  };
-
-  //Send notification when bin is full
-  const sendNotification = () => {
-    PushNotification.localNotification({
-      title: 'Dustbin Full!',
-      message: 'Please empty the dustbin to avoid overflow.',
-    });
-  };
-
-  //Show toast notification when bin is full
-  const showToast = () => {
-    Toast.show({
-      type: 'error',
-      text1: 'Dustbin Full',
-      text2: 'The dustbin is full. Please empty it.',
-    });
   };
 
   //Blinking text style
@@ -177,7 +229,7 @@ const styles = StyleSheet.create({
     padding: 10,
     top: 10,
     right: 10,
-    borderRadius: 15,
+    borderRadius: 5,
   },
   statusIndicatorsContainer: {
     width: '80%',
@@ -234,5 +286,3 @@ const styles = StyleSheet.create({
 });
 
 export default BinStatus;
-
-
